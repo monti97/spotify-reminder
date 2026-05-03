@@ -1,0 +1,31 @@
+name: Spotify Reminder Mensile
+
+on:
+  schedule:
+    - cron: "0 11 3 * *"
+  workflow_dispatch:
+
+jobs:
+  send-reminder:
+    name: Invia promemoria Telegram
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 📦 Installa dipendenze
+        run: |
+          pip install --upgrade pip
+          pip install python-telegram-bot==20.7
+
+      - name: 🚀 Invia messaggio Telegram
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python reminder.py
