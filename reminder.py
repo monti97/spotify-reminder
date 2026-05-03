@@ -64,7 +64,7 @@ def escape_markdownv2(text: str) -> str:
 
 def get_nome_del_mese() -> str:
     mese = datetime.now().month
-    indice_fisso = (mese - 1) % 6  # 0-4 = nomi fissi, 5 = sesto posto
+    indice_fisso = (mese - 4) % 6  # 0-4 = nomi fissi, 5 = sesto posto
 
     if indice_fisso < 5:
         return NOMI_FISSI[
