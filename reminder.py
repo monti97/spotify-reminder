@@ -1,15 +1,9 @@
-"""
-Spotify Reminder Bot
-"""
-
 import os
 import re
 import asyncio
 from datetime import datetime
-
 import telegram
 
-# Nomi fissi (posizioni 1-5)
 NOMI_FISSI = [
     "Stefano",
     "Chiara",
@@ -18,14 +12,11 @@ NOMI_FISSI = [
     "Daniele",
 ]
 
-# Anno di partenza del ciclo (giugno 2026 = prima occorrenza)
 ANNO_INIZIO = 2026
-
-# File con i nomi variabili per il 6° posto
 FILE_NOMI_VARIABILI = "nomi_variabili.txt"
 
 
-def carica_nomi_variabili() -> list:
+def carica_nomi_variabili():
     try:
         with open(FILE_NOMI_VARIABILI, "r", encoding="utf-8") as f:
             nomi = [riga.strip() for riga in f if riga.strip()]
@@ -36,35 +27,19 @@ def carica_nomi_variabili() -> list:
     return ["Drago"]
 
 
-def get_occorrenza_sesto_posto() -> int:
-    """
-    Conta quante volte è toccato il 6° posto (giugno e dicembre)
-    dall'anno di inizio fino ad oggi incluso.
-    Giugno 2026 = 0, Dicembre 2026 = 1, Giugno 2027 = 2, ecc.
-    """
+def get_occorrenza_sesto_posto():
     ora = datetime.now()
-    anno = ora.year
-    mese = ora.month
-
-    # Ogni anno ha 2 occorrenze (giugno e dicembre)
-    anni_passati = anno - ANNO_INIZIO
+    anni_passati = ora.year - ANNO_INIZIO
     occorrenze = anni_passati * 2
-
-    # Se siamo a dicembre aggiungiamo anche la seconda occorrenza dell'anno
-    if mese == 12:
+    if ora.month == 12:
         occorrenze += 1
-
     return occorrenze
 
 
-def escape_markdownv2(text: str) -> str:
+def escape_markdownv2(text):
     special_chars = r"\_*[]()~`>#+-=|{}.!"
     return re.sub(r"([" + re.escape(special_chars) + r"])", r"\\\1", text)
 
 
-def get_nome_del_mese() -> str:
-    mese = datetime.now().month
-    indice_fisso = (mese - 4) % 6  # 0-4 = nomi fissi, 5 = sesto posto
-
-    if indice_fisso < 5:
-        return NOMI_FISSI[
+def get_nome_del_mese():
+    mes
